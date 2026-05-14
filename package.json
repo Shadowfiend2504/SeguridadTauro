@@ -1,0 +1,31 @@
+{
+  "name": "tauro-corporativo",
+  "version": "1.0.0",
+  "description": "Sitio web profesional para Tauro Corporativo - Seguridad Privada",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
+    "lint": "eslint src/js --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "seguridad",
+    "privada",
+    "tauro",
+    "corporativo"
+  ],
+  "author": "Tauro Corporativo",
+  "license": "MIT",
+  "devDependencies": {
+    "@webpack-cli/generators": "^3.0.7",
+    "eslint": "^8.56.0",
+    "http-server": "^14.1.1",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.5"
+  }
+}
