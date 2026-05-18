@@ -272,10 +272,12 @@ function initCoverageMap() {
       const desiredTop = screenPt.y - svgRect.top;
 
       // compute element sizes to align the visual circle (::before) center
-      const w = button.offsetWidth || parseFloat(getComputedStyle(button).width);
-      const h = button.offsetHeight || parseFloat(getComputedStyle(button).height);
+      const w =
+        button.offsetWidth || parseFloat(getComputedStyle(button).width);
+      const h =
+        button.offsetHeight || parseFloat(getComputedStyle(button).height);
       const beforeStyle = getComputedStyle(button, "::before");
-      const beforeH = parseFloat(beforeStyle.height) || (h * 0.66);
+      const beforeH = parseFloat(beforeStyle.height) || h * 0.66;
 
       // transform translate(-50%, -33%) shifts element by -0.5*w horizontally and -0.33*h vertically
       // the circle center is located at beforeH/2 from the element top. Solve for top so that
@@ -314,7 +316,9 @@ function initCoverageMap() {
 
         const btnRect = button.getBoundingClientRect();
         const pathRect = path.getBoundingClientRect();
-        const beforeH = parseFloat(getComputedStyle(button, "::before").height) || (button.offsetHeight * 0.66);
+        const beforeH =
+          parseFloat(getComputedStyle(button, "::before").height) ||
+          button.offsetHeight * 0.66;
 
         const circleCx = btnRect.left + btnRect.width / 2;
         const circleCy = btnRect.top + beforeH / 2;
