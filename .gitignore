@@ -20,17 +20,18 @@ yarn-error.log*
 # Build output
 dist/
 build/
-public/bundle.js
-public/bundle.js.map
+
+# Mantener disponible el index.html dentro de src para despliegue
+!src/index.html
 
 # OS
 Thumbs.db
 .DS_Store
 
 # Logs
-logs
+logs/
 *.log
 
 # Cache
-.cache
+.cache/
 .eslintcache
