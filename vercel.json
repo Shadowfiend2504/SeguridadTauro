@@ -2,6 +2,8 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
+  "installCommand": "npm install --omit=dev --no-audit --no-fund",
+  "buildCommand": "echo Skipping build step",
   "rewrites": [
     {
       "source": "/api/contact",
