@@ -2,7 +2,7 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "installCommand": "npm install --omit=dev --no-audit --no-fund",
+  "installCommand": "npm install --no-audit --no-fund",
   "buildCommand": "echo Skipping build step",
   "rewrites": [
     {
