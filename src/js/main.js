@@ -8,14 +8,39 @@ const app = {
   formSubmitting: false,
 };
 
+const siteConfig = {
+  whatsappNumber: document.body?.dataset?.whatsappNumber || "525519628075",
+  whatsappMessage:
+    document.body?.dataset?.whatsappMessage ||
+    "Hola, quiero recibir información de Tauro Corporativo.",
+  contactEndpoint: document.body?.dataset?.contactEndpoint || "/api/contact",
+};
+
 // Inicializar la aplicación
 document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
+  initWhatsAppLinks();
   initFormHandlers();
   initScrollEffects();
   initVideoBackground();
   initCoverageMap();
 });
+
+function buildWhatsAppUrl(message = siteConfig.whatsappMessage) {
+  const phone = siteConfig.whatsappNumber.replace(/\D/g, "");
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+function initWhatsAppLinks() {
+  const whatsappLinks = document.querySelectorAll("[data-whatsapp-link]");
+  const href = buildWhatsAppUrl();
+
+  whatsappLinks.forEach((link) => {
+    link.setAttribute("href", href);
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noopener noreferrer");
+  });
+}
 
 /**
  * Manejo del menú móvil
@@ -66,21 +91,48 @@ function initFormHandlers() {
       app.formSubmitting = true;
 
       const formData = new FormData(contactForm);
+      const payload = Object.fromEntries(formData.entries());
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+
+      if (payload.website) {
+        app.formSubmitting = false;
+        return;
+      }
 
       try {
-        // Simulación de envío - reemplaza con tu endpoint real
-        console.log("Formulario enviado:", Object.fromEntries(formData));
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Enviando...";
+        }
 
-        // Mostrar mensaje de éxito
+        const response = await fetch(siteConfig.contactEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result.message || "No fue posible enviar el formulario.");
+        }
+
         showNotification("¡Mensaje enviado correctamente!", "success");
         contactForm.reset();
+        initWhatsAppLinks();
       } catch (error) {
         console.error("Error al enviar formulario:", error);
         showNotification(
-          "Error al enviar el mensaje. Intenta de nuevo.",
+          error.message || "Error al enviar el mensaje. Intenta de nuevo.",
           "error",
         );
       } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Enviar Mensaje";
+        }
         app.formSubmitting = false;
       }
     });

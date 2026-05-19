@@ -473,6 +473,41 @@ button[type="submit"] {
   box-shadow: 0 16px 30px rgba(145, 103, 18, 0.28);
 }
 
+.hero-actions {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-lg);
+}
+
+.contact-quick-actions {
+  margin-top: var(--spacing-lg);
+}
+
+.floating-whatsapp {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.6rem;
+  height: 3.6rem;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2bb741, #128c7e);
+  color: #fff;
+  box-shadow: 0 18px 30px rgba(18, 140, 126, 0.32);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.floating-whatsapp:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
 .cta-button:hover,
 .btn-primary:hover,
 button[type="submit"]:hover {
@@ -1152,6 +1187,14 @@ select {
   color-scheme: dark;
 }
 
+.form-group-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
@@ -1249,6 +1292,10 @@ section a[href^="mailto:"] {
 section a[href^="tel:"]:hover,
 section a[href^="mailto:"]:hover {
   color: #fff6db;
+}
+
+section a[data-whatsapp-link]:hover {
+  color: #e7fff2;
 }
 
 #servicios .card-body,
@@ -1456,6 +1503,18 @@ footer {
     left: 1rem;
     right: 1rem;
     max-width: none;
+  }
+
+  .hero-actions,
+  .contact-quick-actions {
+    width: 100%;
+  }
+
+  .hero-actions > a,
+  .contact-quick-actions > a,
+  .floating-whatsapp {
+    width: 100%;
+    justify-content: center;
   }
 }
 

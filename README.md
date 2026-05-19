@@ -54,13 +54,46 @@ El sitio estará disponible en `http://localhost:3000`
 
 ### Compilar assets
 ```bash
-npm build
+npm run build
 ```
 
 ### Verificar calidad de código
 ```bash
 npm lint
 ```
+
+## Formulario de Contacto
+
+El formulario del sitio envía datos a la ruta `/api/contact`.
+
+Para que funcione en Vercel, configura estas variables de entorno:
+
+- `RESEND_API_KEY`: llave privada de Resend
+- `RESEND_FROM_EMAIL`: remitente verificado en Resend
+- `CONTACT_TO_EMAIL`: buzón que recibirá los mensajes
+
+Si prefieres otra pasarela, puedes sustituir `api/contact.js` por un webhook de Formspree, Resend o el proveedor que uses, pero no expongas la llave en el frontend.
+
+## WhatsApp
+
+El enlace de WhatsApp se arma desde el atributo `data-whatsapp-number` del `<body>`.
+
+Si cambias el número, actualiza ese valor y el texto base `data-whatsapp-message` en `src/index.html`.
+
+## Despliegue en Vercel
+
+1. Sube el repositorio a GitHub.
+2. Importa el proyecto en Vercel.
+3. Agrega las variables de entorno anteriores en el panel de Vercel.
+4. Despliega sin cambiar la estructura de `src/`.
+
+El archivo `vercel.json` ya reescribe `/` hacia `src/index.html` y expone la función `/api/contact`.
+
+## Archivos sensibles
+
+- `.env` y `.env.local` quedan fuera del repositorio.
+- `.env.example` se mantiene como referencia pública.
+- `.vercel/` también está ignorado para evitar artefactos locales.
 
 ## Información de Contacto
 

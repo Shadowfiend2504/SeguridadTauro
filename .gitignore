@@ -20,6 +20,7 @@ yarn-error.log*
 # Build output
 dist/
 build/
+.vercel/
 
 # Mantener disponible el index.html dentro de src para despliegue
 !src/index.html

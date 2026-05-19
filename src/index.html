@@ -11,12 +11,28 @@
       name="keywords"
       content="seguridad privada, escolta armada, traslado de valores, seguridad corporativa, México"
     />
+    <meta name="robots" content="index,follow" />
     <meta name="author" content="Tauro Corporativo" />
+    <meta name="theme-color" content="#0c0b09" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Tauro Corporativo - Seguridad Privada Profesional"
+    />
+    <meta
+      property="og:description"
+      content="Seguridad privada profesional con cobertura nacional, escolta armada, traslado de valores y transporte ejecutivo."
+    />
+    <meta property="og:image" content="assets/recursos/LogoTauro.png" />
     <title>Tauro Corporativo - Seguridad Privada Profesional</title>
     <link rel="icon" type="image/png" href="assets/recursos/LogoTauro.png" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
-  <body>
+  <body
+    data-whatsapp-number="525519628075"
+    data-whatsapp-message="Hola, quiero recibir información de Tauro Corporativo."
+    data-contact-endpoint="/api/contact"
+  >
     <!-- ==================== NAVBAR ==================== -->
     <nav class="navbar" id="navbar">
       <!-- Top Bar -->
@@ -29,7 +45,15 @@
             <a href="mailto:ventas@corporativotauro.com.mx" aria-label="Email">
               <span>📧 ventas@corporativotauro.com.mx</span>
             </a>
-            <a href="#" aria-label="Ubicación">
+            <a href="https://wa.me/525519628075" data-whatsapp-link aria-label="WhatsApp">
+              <span>💬 WhatsApp</span>
+            </a>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Alexander%20Von%20Humboldt%2012%20Lomas%20Verdes"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ubicación"
+            >
               <span>📍 Alexander Von Humboldt 12, Lomas Verdes</span>
             </a>
           </div>
@@ -116,7 +140,12 @@
           <span>Atención ejecutiva</span>
           <span>Protocolos certificados</span>
         </div>
-        <a href="#contacto" class="cta-button">Solicita una Consulta</a>
+        <div class="hero-actions">
+          <a href="#contacto" class="cta-button">Solicita una Consulta</a>
+          <a href="https://wa.me/525519628075" data-whatsapp-link class="btn-secondary">
+            Hablar por WhatsApp
+          </a>
+        </div>
       </div>
     </section>
 
@@ -652,11 +681,16 @@
                 Disponibilidad 24/7 para emergencias
               </p>
             </div>
+            <div class="contact-quick-actions">
+              <a href="https://wa.me/525519628075" data-whatsapp-link class="btn btn-secondary">
+                Escribir por WhatsApp
+              </a>
+            </div>
           </div>
 
           <div>
             <h3>Formulario de Contacto</h3>
-            <form id="contact-form">
+            <form id="contact-form" data-contact-form>
               <div class="form-group">
                 <label for="nombre">Nombre Completo *</label>
                 <input type="text" id="nombre" name="nombre" required />
@@ -687,6 +721,11 @@
               <div class="form-group">
                 <label for="mensaje">Mensaje *</label>
                 <textarea id="mensaje" name="mensaje" required></textarea>
+              </div>
+
+              <div class="form-group form-group-hidden" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
               </div>
 
               <div class="form-group">
@@ -740,6 +779,7 @@
             <li><a href="#formacion">Formación y Capacitación</a></li>
             <li><a href="#cobertura">Cobertura Nacional</a></li>
             <li><a href="#contacto">Contacto</a></li>
+            <li><a href="https://wa.me/525519628075" data-whatsapp-link>WhatsApp</a></li>
           </ul>
         </div>
 
@@ -783,6 +823,17 @@
         </p>
       </div>
     </footer>
+
+    <a
+      class="floating-whatsapp"
+      href="https://wa.me/525519628075"
+      data-whatsapp-link
+      aria-label="Abrir WhatsApp"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span>WhatsApp</span>
+    </a>
 
     <!-- Scripts -->
     <script src="js/main.js"></script>
