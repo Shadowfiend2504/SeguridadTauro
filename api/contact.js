@@ -76,13 +76,14 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const serviceLabel = {
-      escolta: "Escolta Armada",
-      traslado: "Traslado de Valores",
-      custodia: "Custodia de Mercancías",
-      transporte: "Transporte Ejecutivo",
-      otro: "Otro Servicio",
-    }[servicio] || servicio;
+    const serviceLabel =
+      {
+        escolta: "Escolta Armada",
+        traslado: "Traslado de Valores",
+        custodia: "Custodia de Mercancías",
+        transporte: "Transporte Ejecutivo",
+        otro: "Otro Servicio",
+      }[servicio] || servicio;
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
     const html = `

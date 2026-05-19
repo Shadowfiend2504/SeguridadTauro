@@ -116,7 +116,9 @@ function initFormHandlers() {
         const result = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-          throw new Error(result.message || "No fue posible enviar el formulario.");
+          throw new Error(
+            result.message || "No fue posible enviar el formulario.",
+          );
         }
 
         showNotification("¡Mensaje enviado correctamente!", "success");

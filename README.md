@@ -1,6 +1,7 @@
 # Tauro Corporativo - Seguridad Privada
 
 ## Descripción
+
 Sitio web profesional para Tauro Corporativo, una empresa líder en seguridad privada con más de 20 años de experiencia. Ofrecemos servicios integrales de seguridad incluyendo:
 
 - **Escolta Armada**: Protección especializada con personal entrenado
@@ -15,7 +16,7 @@ Sitio web profesional para Tauro Corporativo, una empresa líder en seguridad pr
 ✅ Navegación intuitiva  
 ✅ Información de servicios detallada  
 ✅ Testimonios y casos de éxito  
-✅ Cobertura nacional  
+✅ Cobertura nacional
 
 ## Estructura del Proyecto
 
@@ -47,17 +48,21 @@ npm start
 ## Desarrollo
 
 ### Iniciar servidor local
+
 ```bash
 npm start
 ```
+
 El sitio estará disponible en `http://localhost:3000`
 
 ### Compilar assets
+
 ```bash
 npm run build
 ```
 
 ### Verificar calidad de código
+
 ```bash
 npm lint
 ```
@@ -99,7 +104,7 @@ El archivo `vercel.json` ya reescribe `/` hacia `src/index.html` y expone la fun
 
 📞 **Teléfono**: +55 19628075  
 📧 **Email**: ventas@corporativotauro.com.mx  
-📍 **Dirección**: Alexander Von Humboldt 12, Lomas Verdes, CDMX, México  
+📍 **Dirección**: Alexander Von Humboldt 12, Lomas Verdes, CDMX, México
 
 ## Redes Sociales
 
