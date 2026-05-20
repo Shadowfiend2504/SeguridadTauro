@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initWhatsAppLinks();
   initFormHandlers();
   initScrollEffects();
+  initFloatingWhatsApp();
   initVideoBackground();
   initCoverageMap();
 });
@@ -170,6 +171,33 @@ function initScrollEffects() {
       }
     });
   });
+}
+
+/**
+ * Botón flotante de WhatsApp
+ * Se muestra solo después de hacer scroll para evitar ser invasivo
+ */
+function initFloatingWhatsApp() {
+  const floatingBtn = $(".floating-whatsapp");
+  if (!floatingBtn) return;
+
+  // Mostrar después de hacer scroll 300px o más
+  const scrollThreshold = 300;
+  let hasScrolled = false;
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (window.scrollY > scrollThreshold && !hasScrolled) {
+        hasScrolled = true;
+        floatingBtn.classList.add("visible");
+      } else if (window.scrollY <= scrollThreshold && hasScrolled) {
+        hasScrolled = false;
+        floatingBtn.classList.remove("visible");
+      }
+    },
+    { passive: true },
+  );
 }
 
 /**

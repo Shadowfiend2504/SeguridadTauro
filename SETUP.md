@@ -72,7 +72,7 @@ SeguridadTauro/
 ├── .eslintrc.js                # Configuración ESLint
 ├── webpack.config.js           # Configuración Webpack
 ├── package.json                # Dependencias del proyecto
-├── server.js                   # Servidor Node.js
+├── (Opcional) `server.js` local para desarrollo antiguo
 ├── .gitignore                  # Archivos ignorados por Git
 ├── README.md                   # Documentación del proyecto
 └── SETUP.md                    # Este archivo
@@ -84,11 +84,13 @@ SeguridadTauro/
 
 ### Desarrollo
 ```bash
-npm start           # Inicia servidor de desarrollo en puerto 3000
+# Para desarrollo local con bundling (recomendado):
 npm run dev         # Compila en modo desarrollo con observador
-npm run build       # Compila proyecto para producción
+npm run build       # Compila proyecto para producción (genera /public)
 npm run lint        # Verifica calidad de código con ESLint
 npm run lint --fix  # Corrige automáticamente errores de linting
+
+# Despliegue en Vercel: el endpoint está en `api/contact.js` y la configuración está en `vercel.json`.
 ```
 
 ---
@@ -170,10 +172,7 @@ Edita las variables CSS en `src/css/styles.css`:
 **Solución:** Node.js no está instalado. Descárgalo de [nodejs.org](https://nodejs.org/)
 
 ### ❌ Puerto 3000 en uso
-**Solución:** Cambia el puerto en `server.js`:
-```javascript
-const PORT = 3001; // Cambia a otro puerto
-```
+Si usas un servidor local (opcional), cambia el puerto según la herramienta que ejecutes. Si despliegas en Vercel no aplica.
 
 ### ❌ Formulario no envía
 **Solución:** Configura un endpoint en `src/js/main.js`:

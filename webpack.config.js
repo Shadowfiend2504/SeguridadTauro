@@ -2,12 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   entry: './src/js/main.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
-    clean: true, // Limpia la carpeta de salida antes de generar los archivos
+    clean: true,
   },
   module: {
     rules: [
@@ -41,6 +43,6 @@ module.exports = {
       ],
     }),
   ],
-  devtool: 'source-map',
-  mode: 'production',
+  devtool: isDev ? 'source-map' : false,
+  mode: isDev ? 'development' : 'production',
 };

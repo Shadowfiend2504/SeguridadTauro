@@ -550,6 +550,15 @@ button[type="submit"] {
     box-shadow var(--transition),
     opacity var(--transition);
   border: 1px solid var(--primary-color);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.floating-whatsapp.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .floating-whatsapp:hover {
@@ -1666,10 +1675,22 @@ footer {
   }
 
   .hero-actions > a,
-  .contact-quick-actions > a,
-  .floating-whatsapp {
+  .contact-quick-actions > a {
     width: 100%;
     justify-content: center;
+  }
+
+  .floating-whatsapp {
+    width: 48px;
+    height: 48px;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .floating-whatsapp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
   }
 }
 
