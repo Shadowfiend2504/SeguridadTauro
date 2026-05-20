@@ -92,7 +92,12 @@ Si cambias el número, actualiza ese valor y el texto base `data-whatsapp-messag
 3. Agrega las variables de entorno anteriores en el panel de Vercel.
 4. Despliega sin cambiar la estructura de `src/`.
 
-El archivo `vercel.json` ya reescribe `/` hacia `src/index.html` y expone la función `/api/contact`.
+El archivo `vercel.json` define rutas y builds explícitos para:
+
+- Servir `src/index.html` en `/`
+- Resolver assets desde `src/`
+- Exponer la función serverless `/api/contact`
+- Publicar archivos estáticos adicionales dentro de `public/` (por ejemplo `robots.txt` y `sitemap.xml`)
 
 ## Archivos sensibles
 

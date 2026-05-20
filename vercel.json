@@ -1,21 +1,32 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
   "installCommand": "npm install --no-audit --no-fund",
-  "buildCommand": "echo Skipping build step",
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/contact",
-      "destination": "/api/contact.js"
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     },
     {
-      "source": "/",
-      "destination": "/src/index.html"
+      "src": "src/**",
+      "use": "@vercel/static"
     },
     {
-      "source": "/(.*)",
-      "destination": "/src/$1"
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/contact",
+      "dest": "/api/contact.js"
+    },
+    {
+      "src": "/",
+      "dest": "/src/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/$1"
     }
   ]
 }
