@@ -121,4 +121,4 @@ MIT License - Todos los derechos reservados © 2024 Tauro Corporativo
 
 ## Autor
 
-Desarrollado por el equipo de Tauro Corporativo
+Proyecto desarrollado por Juan Sebastian Carvajal para Tauro Corporativo como solución web profesional para el sector de seguridad privada.
