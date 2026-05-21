@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFloatingWhatsApp();
   initVideoBackground();
   initCoverageMap();
+  initNavDropdowns();
 });
 
 function buildWhatsAppUrl(message = siteConfig.whatsappMessage) {
@@ -67,13 +68,42 @@ function initMobileMenu() {
     });
   }
 
-  // Cerrar menú al hacer clic en un enlace
+  // Cerrar menú al hacer clic en un enlace; pero permitir que los padres con submenu se expandan
   const mobileMenuLinks = $$("#mobile-menu a");
   mobileMenuLinks.forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (e) => {
+      const parent = link.closest(".has-submenu");
+      if (parent && window.innerWidth <= 900) {
+        // en móvil, al pulsar el enlace padre mostramos/ocultamos el submenu
+        e.preventDefault();
+        parent.classList.toggle("open");
+        const a = parent.querySelector("a");
+        if (a)
+          a.setAttribute("aria-expanded", parent.classList.contains("open"));
+        return;
+      }
+
       app.menuOpen = false;
       mobileMenu.classList.remove("active");
       document.body.style.overflow = "auto";
+    });
+  });
+}
+
+/**
+ * Inicializa comportamiento del desplegable en el nav (desktop hover + móvil toggle)
+ */
+function initNavDropdowns() {
+  const parents = document.querySelectorAll(".nav-menu .has-submenu > a");
+  parents.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      // en pantallas pequeñas, el click en el enlace principal debe abrir/cerrar el submenu
+      if (window.innerWidth <= 900) {
+        e.preventDefault();
+        const parent = link.parentElement;
+        parent.classList.toggle("open");
+        link.setAttribute("aria-expanded", parent.classList.contains("open"));
+      }
     });
   });
 }
@@ -252,8 +282,8 @@ function initCoverageMap() {
         "Protección patrimonial",
       ],
     },
-    mexicali: {
-      name: "Mexicali",
+    tijuana: {
+      name: "Tijuana",
       description:
         "Cobertura en la frontera norte para protección ejecutiva, control de accesos críticos y custodia de operaciones sensibles.",
       facts: [

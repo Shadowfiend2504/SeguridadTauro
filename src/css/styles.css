@@ -279,6 +279,78 @@ video {
   letter-spacing: 0.03em;
 }
 
+/* Dropdown submenu styles */
+.nav-menu .has-submenu {
+  position: relative;
+}
+
+.nav-menu .submenu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 220px;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 18, 16, 0.98),
+    rgba(10, 10, 8, 0.98)
+  );
+  border: 1px solid rgba(216, 177, 95, 0.12);
+  padding: 0.5rem 0;
+  border-radius: 10px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.36);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity var(--transition),
+    transform var(--transition),
+    visibility var(--transition);
+  z-index: 1100;
+}
+
+.nav-menu .submenu li {
+  list-style: none;
+}
+
+.nav-menu .submenu a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: rgba(245, 240, 224, 0.95);
+  font-weight: 600;
+}
+
+.nav-menu .submenu a:hover {
+  background: rgba(216, 177, 95, 0.06);
+  color: #fff;
+}
+
+/* show on hover for desktop */
+@media (hover: hover) and (min-width: 900px) {
+  .nav-menu .has-submenu:hover > .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* mobile: enable expand/collapse */
+@media (max-width: 899px) {
+  .nav-menu .submenu {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    padding-left: 1rem;
+    display: none;
+  }
+  .nav-menu .has-submenu.open > .submenu {
+    display: block;
+  }
+  .nav-menu .has-submenu > a[aria-expanded="true"]::after {
+    content: " ▴";
+  }
+}
+
 .nav-menu a::after {
   content: "";
   position: absolute;
@@ -842,6 +914,266 @@ section:not(.hero)::before {
 
 .card-body {
   padding: 1.4rem;
+}
+
+/* Service card backgrounds and overlay */
+.service-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+/* Placeholder gradients for each service; replace with background-image: url('../assets/recursos/your-image.jpg') */
+.service-card--escoltas {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/escolta.jpeg");
+  background-blend-mode: overlay, normal;
+}
+.service-card--guardias {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/resguardo%20comercial.webp");
+  background-blend-mode: overlay, normal;
+}
+.service-card--custodia {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/traslado%20de%20bienes.png");
+  background-blend-mode: overlay, normal;
+}
+.service-card--especiales {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/c3%20-%20c4.png");
+  background-blend-mode: overlay, normal;
+}
+
+.service-card .card-header {
+  background: transparent;
+  border-bottom: none;
+  padding: 1rem 1.2rem 0.6rem;
+}
+
+.service-card .card-title {
+  color: #fff7e0;
+}
+
+.service-card .card-body {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.32));
+  padding: 1.2rem;
+}
+
+.btn-saber {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--gold-gradient);
+  color: #120f08;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn-saber:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.36);
+}
+
+/* Ensure readable list inside service cards */
+.service-card .card-body p {
+  color: rgba(247, 240, 224, 0.95);
+}
+
+@media (max-width: 900px) {
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Service page layout */
+.service-hero {
+  min-height: 340px;
+  display: grid;
+  align-items: center;
+  padding: clamp(2.6rem, 5vw, 4rem) 1rem;
+  color: #fff;
+  /* Mostrar la imagen completa dentro del hero (no recortada) */
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  margin-bottom: 1.6rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.service-hero h1 {
+  margin: 0 0 0.4rem 0;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  color: #fff8e6;
+}
+
+.service-hero p.lead {
+  margin: 0;
+  color: rgba(247, 240, 224, 0.95);
+  font-size: 1rem;
+}
+
+.service-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* overlay suave para mejorar contraste sin ocultar la imagen */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.52));
+  border-radius: 12px;
+  z-index: 0;
+}
+.service-hero > div {
+  position: relative;
+  z-index: 1;
+}
+.service-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.service-summary {
+  position: sticky;
+  top: 92px;
+}
+.service-hero h1,
+.service-hero p.lead {
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+}
+
+.service-summary .card {
+  padding: 0;
+  overflow: visible;
+}
+
+.service-summary .card .card-body {
+  padding: 1rem;
+}
+
+.service-details .card-body {
+  padding: 1.8rem 2rem;
+  margin-bottom: 1.25rem;
+  color: rgba(247, 240, 224, 0.98);
+}
+
+.service-card .card-body {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.72));
+  padding: 1.4rem;
+  backdrop-filter: blur(6px);
+}
+
+.service-card .card-title {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+.service-section h4 {
+  margin-bottom: 0.5rem;
+  color: #fff7df;
+}
+
+.service-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.6rem;
+}
+.service-details .card-body {
+  color: rgba(247, 240, 224, 0.98);
+}
+
+.service-features .feature {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(216, 177, 95, 0.06);
+}
+
+/* Aumentar legibilidad de los párrafos en las secciones de servicio */
+.service-section p {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+.service-hero .btn-saber {
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 980px) {
+  .service-container {
+    grid-template-columns: 1fr;
+  }
+  .service-summary {
+    position: relative;
+    top: 0;
+  }
+}
+
+/* hero backgrounds for service pages */
+.service-hero--escoltas {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/escolta.jpeg");
+  background-blend-mode: overlay, normal;
+}
+.service-hero--guardias {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/resguardo%20comercial.webp");
+  background-blend-mode: overlay, normal;
+}
+.service-hero--custodia {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/traslado%20de%20bienes.png");
+  background-blend-mode: overlay, normal;
+}
+.service-hero--especiales {
+  background-image:
+    linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
+    url("../assets/recursos/c3%20-%20c4.png");
+  background-blend-mode: overlay, normal;
+}
+
+/* Estilos específicos para la lista de "Principios" dentro de las cards */
+.card-body ol.card-principles {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--text-light);
+  list-style: decimal;
+  list-style-position: inside;
+}
+
+.card-body ol.card-principles li {
+  margin-bottom: 0.6rem;
+  line-height: 1.5;
+  padding-left: 0.25rem;
+}
+
+.card-body ol.card-principles li::marker {
+  color: var(--primary-color);
+  font-weight: 700;
 }
 
 .card-title,
