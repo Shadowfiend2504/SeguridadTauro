@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initVideoBackground();
   initCoverageMap();
   initNavDropdowns();
+  initFormationCarousel();
 });
 
 function buildWhatsAppUrl(message = siteConfig.whatsappMessage) {
@@ -481,6 +482,132 @@ function initCoverageMap() {
 
   positionCoverageButtons();
   window.addEventListener("resize", positionCoverageButtons);
+}
+
+/**
+ * Carrusel continuo para la banda de formación.
+ */
+function initFormationCarousel() {
+  const band = document.querySelector(".formation-band");
+  const track = band?.querySelector(".formation-band-track");
+
+  if (!band || !track) return;
+
+  const imageSources = Array.from({ length: 19 }, (_, index) => ({
+    src: `assets/recursos/${index + 1}.png`,
+    alt: `Reconocimiento académico ${index + 1}`,
+  }));
+
+  const buildGroup = (isClone = false) => {
+    const group = document.createElement("div");
+    group.className = "formation-band-group";
+
+    if (isClone) {
+      group.setAttribute("aria-hidden", "true");
+    }
+
+    imageSources.forEach(({ src, alt }) => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.alt = isClone ? "" : alt;
+      // fallback: si la imagen falla, usar logo como placeholder
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = "assets/recursos/LogoTauro.png";
+        img.alt = isClone ? "" : alt + " (placeholder)";
+      };
+      group.appendChild(img);
+    });
+
+    return group;
+  };
+
+  track.replaceChildren(buildGroup(false), buildGroup(true));
+
+  const firstGroup = band.querySelector(".formation-band-group");
+
+  if (!firstGroup) return;
+
+  const state = {
+    offset: 0,
+    groupWidth: 0,
+    lastTimestamp: 0,
+    paused: false,
+    rafId: 0,
+  };
+
+  const measureGroupWidth = () => {
+    const groupRect = firstGroup.getBoundingClientRect();
+    const styles = window.getComputedStyle(firstGroup);
+    const gapValue =
+      Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+    state.groupWidth = groupRect.width + gapValue;
+    if (!state.groupWidth) {
+      state.groupWidth = firstGroup.scrollWidth;
+    }
+  };
+
+  const render = () => {
+    track.style.transform = `translate3d(${-state.offset}px, 0, 0)`;
+  };
+
+  const step = (timestamp) => {
+    if (!state.lastTimestamp) {
+      state.lastTimestamp = timestamp;
+    }
+
+    const delta = timestamp - state.lastTimestamp;
+    state.lastTimestamp = timestamp;
+
+    if (!state.paused && state.groupWidth > 0) {
+      const pixelsPerSecond = 120;
+      state.offset += (delta / 1000) * pixelsPerSecond;
+
+      if (state.offset >= state.groupWidth) {
+        state.offset -= state.groupWidth;
+      }
+
+      render();
+    }
+
+    state.rafId = window.requestAnimationFrame(step);
+  };
+
+  const resizeObserver = new ResizeObserver(() => {
+    measureGroupWidth();
+    if (state.offset >= state.groupWidth) {
+      state.offset = 0;
+    }
+    render();
+  });
+
+  band.addEventListener("mouseenter", () => {
+    state.paused = true;
+  });
+
+  band.addEventListener("mouseleave", () => {
+    state.paused = false;
+  });
+
+  resizeObserver.observe(firstGroup);
+  resizeObserver.observe(band);
+  // Esperar a que las imágenes del primer grupo carguen (o fallen) antes de medir
+  const imgs = Array.from(firstGroup.querySelectorAll("img"));
+  const loadPromises = imgs.map((img) =>
+    new Promise((res) => {
+      if (img.complete) return res();
+      img.addEventListener("load", res, { once: true });
+      img.addEventListener("error", res, { once: true });
+    }),
+  );
+
+  Promise.all(loadPromises).then(() => {
+    measureGroupWidth();
+    render();
+    state.rafId = window.requestAnimationFrame(step);
+  });
 }
 
 /**

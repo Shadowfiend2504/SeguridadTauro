@@ -1287,6 +1287,56 @@ section:not(.hero)::before {
   color: var(--text-light);
 }
 
+.formation-band {
+  margin-top: var(--spacing-2xl);
+  padding: 0.85rem;
+  border-radius: 24px;
+  border: 1px solid rgba(216, 177, 95, 0.16);
+  background: linear-gradient(
+    180deg,
+    rgba(24, 21, 17, 0.92),
+    rgba(14, 13, 11, 0.96)
+  );
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.formation-band-track {
+  display: flex;
+  width: max-content;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.formation-band-group {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding-right: 0.9rem;
+}
+
+.formation-band-group img {
+  width: clamp(88px, 10vw, 150px);
+  height: clamp(88px, 10vw, 150px);
+  object-fit: contain;
+  flex: 0 0 auto;
+  padding: 0.75rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(216, 177, 95, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.formation-band:hover .formation-band-group img {
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .formation-band-track {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
 #acerca-de ul {
   padding-left: 1.3rem;
   color: var(--text-light);
