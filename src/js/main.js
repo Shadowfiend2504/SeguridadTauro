@@ -512,11 +512,10 @@ function initFormationCarousel() {
       img.loading = "lazy";
       img.decoding = "async";
       img.alt = isClone ? "" : alt;
-      // fallback: si la imagen falla, usar logo como placeholder
       img.onerror = () => {
         img.onerror = null;
         img.src = "assets/recursos/LogoTauro.png";
-        img.alt = isClone ? "" : alt + " (placeholder)";
+        img.alt = isClone ? "" : alt;
       };
       group.appendChild(img);
     });
@@ -572,6 +571,17 @@ function initFormationCarousel() {
       render();
     }
 
+    if (state.paused) {
+      render();
+    }
+
+    state.rafId = window.requestAnimationFrame(step);
+  };
+
+  const startCarousel = () => {
+    if (state.rafId) return;
+    measureGroupWidth();
+    render();
     state.rafId = window.requestAnimationFrame(step);
   };
 
@@ -593,7 +603,7 @@ function initFormationCarousel() {
 
   resizeObserver.observe(firstGroup);
   resizeObserver.observe(band);
-  // Esperar a que las imágenes del primer grupo carguen (o fallen) antes de medir
+
   const imgs = Array.from(firstGroup.querySelectorAll("img"));
   const loadPromises = imgs.map(
     (img) =>
@@ -605,9 +615,7 @@ function initFormationCarousel() {
   );
 
   Promise.all(loadPromises).then(() => {
-    measureGroupWidth();
-    render();
-    state.rafId = window.requestAnimationFrame(step);
+    startCarousel();
   });
 }
 
