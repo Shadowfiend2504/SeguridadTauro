@@ -605,16 +605,27 @@ function initFormationCarousel() {
   resizeObserver.observe(band);
 
   const imgs = Array.from(firstGroup.querySelectorAll("img"));
-  const loadPromises = imgs.map(
-    (img) =>
-      new Promise((res) => {
-        if (img.complete) return res();
-        img.addEventListener("load", res, { once: true });
-        img.addEventListener("error", res, { once: true });
-      }),
-  );
+  imgs.forEach((img) => {
+    img.addEventListener(
+      "load",
+      () => {
+        measureGroupWidth();
+        render();
+      },
+      { once: true },
+    );
+    img.addEventListener(
+      "error",
+      () => {
+        measureGroupWidth();
+        render();
+      },
+      { once: true },
+    );
+  });
 
-  Promise.all(loadPromises).then(() => {
+  window.requestAnimationFrame(() => {
+    measureGroupWidth();
     startCarousel();
   });
 }
