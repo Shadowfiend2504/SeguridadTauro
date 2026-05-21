@@ -12,7 +12,7 @@ const siteConfig = {
   whatsappNumber: document.body?.dataset?.whatsappNumber || "525519628075",
   whatsappMessage:
     document.body?.dataset?.whatsappMessage ||
-    "Hola, quiero recibir información de Tauro Corporativo.",
+    "Hola, quiero recibir información sobre los servicios que ofrecen.",
   contactEndpoint: document.body?.dataset?.contactEndpoint || "/api/contact",
 };
 
