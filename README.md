@@ -111,7 +111,7 @@ El archivo `vercel.json` define rutas y builds explícitos para:
 
 📞 **Teléfono**: +55 19628075  
 📧 **Email**: ventas@corporativotauro.com.mx  
-📍 **Dirección**: Alexander Von Humboldt 12, Lomas Verdes, CDMX, México
+📍 **Dirección**: Lomas Verdes 3ra Secc - Naucalpan de Juárez, CDMX, México
 
 ## Redes Sociales
 
