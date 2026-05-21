@@ -595,12 +595,13 @@ function initFormationCarousel() {
   resizeObserver.observe(band);
   // Esperar a que las imágenes del primer grupo carguen (o fallen) antes de medir
   const imgs = Array.from(firstGroup.querySelectorAll("img"));
-  const loadPromises = imgs.map((img) =>
-    new Promise((res) => {
-      if (img.complete) return res();
-      img.addEventListener("load", res, { once: true });
-      img.addEventListener("error", res, { once: true });
-    }),
+  const loadPromises = imgs.map(
+    (img) =>
+      new Promise((res) => {
+        if (img.complete) return res();
+        img.addEventListener("load", res, { once: true });
+        img.addEventListener("error", res, { once: true });
+      }),
   );
 
   Promise.all(loadPromises).then(() => {
