@@ -124,7 +124,10 @@ module.exports = async (req, res) => {
         var logoSrc = publicLogoUrl;
       }
     } catch (err) {
-      console.warn("No se pudo leer LogoTauro.png para adjuntar como CID:", err && err.message ? err.message : err);
+      console.warn(
+        "No se pudo leer LogoTauro.png para adjuntar como CID:",
+        err && err.message ? err.message : err,
+      );
       var logoSrc = publicLogoUrl;
     }
 
@@ -175,11 +178,16 @@ module.exports = async (req, res) => {
     // If no CID attachment was added, try adding the public URL as attachment path
     if (attachments.length === 0) {
       try {
-        const isHttp = typeof publicLogoUrl === "string" && /^https?:\/\//i.test(publicLogoUrl);
+        const isHttp =
+          typeof publicLogoUrl === "string" &&
+          /^https?:\/\//i.test(publicLogoUrl);
         if (isHttp) {
           attachments.push({ path: publicLogoUrl, filename: "LogoTauro.png" });
         } else {
-          console.warn("publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=", publicLogoUrl);
+          console.warn(
+            "publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=",
+            publicLogoUrl,
+          );
         }
       } catch (e) {
         console.warn("Error validating publicLogoUrl for attachment", e);
