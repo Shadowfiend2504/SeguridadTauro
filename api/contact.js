@@ -163,6 +163,12 @@ module.exports = async (req, res) => {
       subject,
       html,
       text,
+      attachments: [
+        {
+          path: publicLogoUrl,
+          filename: "LogoTauro.png",
+        },
+      ],
     });
 
     res.statusCode = 200;
