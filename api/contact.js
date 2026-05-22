@@ -92,8 +92,13 @@ module.exports = async (req, res) => {
     const serviceLabel = serviceLabels[servicio] || servicio;
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
-    // Intentar incrustar el logo como base64 desde el archivo local; si no está disponible, usar URL pública
-    let embeddedLogo = null;
+    // Preparar attachments: preferimos adjuntar el logo como inline CID leyendo el archivo
+    const attachments = [];
+    const publicLogoUrlBase =
+      process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app";
+    const publicLogoUrl = `${publicLogoUrlBase.replace(/\/$/, "")}/assets/recursos/LogoTauro.png`;
+
+    // Intentar leer el fichero del logo para adjuntarlo inline (CID)
     try {
       const logoPath = path.join(
         __dirname,
@@ -105,16 +110,23 @@ module.exports = async (req, res) => {
       );
       if (fs.existsSync(logoPath)) {
         const buf = fs.readFileSync(logoPath);
-        embeddedLogo = `data:image/png;base64,${buf.toString("base64")}`;
+        const cid = "logo@tauro";
+        attachments.push({
+          filename: "LogoTauro.png",
+          type: "image/png",
+          content: buf.toString("base64"),
+          disposition: "inline",
+          cid,
+        });
+        // Referenciar por CID en el HTML
+        var logoSrc = `cid:${cid}`;
+      } else {
+        var logoSrc = publicLogoUrl;
       }
     } catch (err) {
-      // no-op: si falla la lectura, usaremos la URL pública
+      console.warn("No se pudo leer LogoTauro.png para adjuntar como CID:", err && err.message ? err.message : err);
+      var logoSrc = publicLogoUrl;
     }
-
-    const publicLogoUrlBase =
-      process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app";
-    const publicLogoUrl = `${publicLogoUrlBase.replace(/\/$/, "")}/assets/recursos/LogoTauro.png`;
-    const logoSrc = embeddedLogo || publicLogoUrl;
 
     const html = `
       <!doctype html>
@@ -160,22 +172,18 @@ module.exports = async (req, res) => {
     console.log("logoSrc used in HTML:", logoSrc);
     console.log("publicLogoUrl (for attachment):", publicLogoUrl);
 
-    // Ensure attachments path is a valid http(s) URL before sending
-    const attachments = [];
-    try {
-      const isHttp =
-        typeof publicLogoUrl === "string" &&
-        /^https?:\/\//i.test(publicLogoUrl);
-      if (isHttp) {
-        attachments.push({ path: publicLogoUrl, filename: "LogoTauro.png" });
-      } else {
-        console.warn(
-          "publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=",
-          publicLogoUrl,
-        );
+    // If no CID attachment was added, try adding the public URL as attachment path
+    if (attachments.length === 0) {
+      try {
+        const isHttp = typeof publicLogoUrl === "string" && /^https?:\/\//i.test(publicLogoUrl);
+        if (isHttp) {
+          attachments.push({ path: publicLogoUrl, filename: "LogoTauro.png" });
+        } else {
+          console.warn("publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=", publicLogoUrl);
+        }
+      } catch (e) {
+        console.warn("Error validating publicLogoUrl for attachment", e);
       }
-    } catch (e) {
-      console.warn("Error validating publicLogoUrl for attachment", e);
     }
 
     await resend.emails.send({
