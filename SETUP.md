@@ -101,6 +101,16 @@ npm run lint --fix  # Corrige automáticamente errores de linting
 # Despliegue en Vercel: el endpoint está en `api/contact.js` y la configuración está en `vercel.json`.
 ```
 
+## Variables de Entorno para Resend
+
+Para que el formulario de contacto envíe correos, configura estas variables en Vercel o en un archivo `.env.local` local:
+
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
+- `CONTACT_TO_EMAIL`
+
+La clave privada no debe guardarse en el repositorio. Si la estás configurando en Vercel, pega allí tu valor real y no lo subas a Git.
+
 ---
 
 ## Características del Sitio

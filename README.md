@@ -73,11 +73,13 @@ npm lint
 
 El formulario del sitio envía datos a la ruta `/api/contact`.
 
-Para que funcione en Vercel, configura estas variables de entorno:
+Para que funcione en Vercel, configura estas variables de entorno en el panel del proyecto, no en el repositorio:
 
 - `RESEND_API_KEY`: llave privada de Resend
 - `RESEND_FROM_EMAIL`: remitente verificado en Resend
 - `CONTACT_TO_EMAIL`: buzón que recibirá los mensajes
+
+Si pruebas en local, puedes usar un archivo `.env.local` con esas mismas claves. Ese archivo ya está ignorado por Git.
 
 Si prefieres otra pasarela, puedes sustituir `api/contact.js` por un webhook de Formspree, Resend o el proveedor que uses, pero no expongas la llave en el frontend.
 
@@ -91,7 +93,7 @@ Si cambias el número, actualiza ese valor y el texto base `data-whatsapp-messag
 
 1. Sube el repositorio a GitHub.
 2. Importa el proyecto en Vercel.
-3. Agrega las variables de entorno anteriores en el panel de Vercel.
+3. Agrega `RESEND_API_KEY`, `RESEND_FROM_EMAIL` y `CONTACT_TO_EMAIL` en el panel de Vercel.
 4. Despliega sin cambiar la estructura de `src/`.
 
 El archivo `vercel.json` define rutas y builds explícitos para:

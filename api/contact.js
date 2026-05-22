@@ -1,3 +1,5 @@
+const { Resend } = require("resend");
+
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
     let rawBody = "";
@@ -31,6 +33,14 @@ function escapeHtml(value) {
     .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
+
+const serviceLabels = {
+  escolta: "Escolta Armada",
+  traslado: "Traslado de Valores",
+  custodia: "Custodia de Mercancías",
+  transporte: "Transporte Ejecutivo",
+  otro: "Otro Servicio",
+};
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -76,14 +86,8 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const serviceLabel =
-      {
-        escolta: "Escolta Armada",
-        traslado: "Traslado de Valores",
-        custodia: "Custodia de Mercancías",
-        transporte: "Transporte Ejecutivo",
-        otro: "Otro Servicio",
-      }[servicio] || servicio;
+    const resend = new Resend(apiKey);
+    const serviceLabel = serviceLabels[servicio] || servicio;
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
     const html = `
@@ -95,32 +99,13 @@ module.exports = async (req, res) => {
       <p><strong>Mensaje:</strong><br />${escapeHtml(mensaje).replace(/\n/g, "<br />")}</p>
     `;
 
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [toEmail],
-        reply_to: email,
-        subject,
-        html,
-      }),
+    await resend.emails.send({
+      from: fromEmail,
+      to: [toEmail],
+      replyTo: email,
+      subject,
+      html,
     });
-
-    if (!emailResponse.ok) {
-      const errorText = await emailResponse.text();
-      res.statusCode = 502;
-      res.end(
-        JSON.stringify({
-          message: "No fue posible enviar el correo.",
-          detail: errorText,
-        }),
-      );
-      return;
-    }
 
     res.statusCode = 200;
     res.end(JSON.stringify({ message: "Mensaje enviado correctamente" }));
