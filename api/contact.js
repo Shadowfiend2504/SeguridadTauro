@@ -194,6 +194,25 @@ module.exports = async (req, res) => {
       }
     }
 
+    // Log payload (html + attachments) before sending to Resend for debugging
+    try {
+      const payloadPreview = {
+        subject,
+        htmlSnippet: typeof html === "string" ? html.slice(0, 1000) : null,
+        attachments: attachments.map((a) => ({
+          filename: a.filename,
+          type: a.type,
+          disposition: a.disposition,
+          cid: a.cid,
+          path: a.path,
+          contentLength: a.content ? a.content.length : undefined,
+        })),
+      };
+      console.log("Resend payload preview:", JSON.stringify(payloadPreview, null, 2));
+    } catch (logErr) {
+      console.log("Failed to stringify payload preview:", String(logErr));
+    }
+
     await resend.emails.send({
       from: fromEmail,
       to: [toEmail],
