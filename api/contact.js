@@ -1,4 +1,6 @@
 const { Resend } = require("resend");
+const fs = require("fs");
+const path = require("path");
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -90,10 +92,21 @@ module.exports = async (req, res) => {
     const serviceLabel = serviceLabels[servicio] || servicio;
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
-    // URL pública del logo (usada en el encabezado del correo)
-    const logoUrl =
-      process.env.SITE_PUBLIC_URL ||
-      "https://seguridad-tauro.vercel.app/assets/recursos/LogoTauro.png";
+    // Intentar incrustar el logo como base64 desde el archivo local; si no está disponible, usar URL pública
+    let embeddedLogo = null;
+    try {
+      const logoPath = path.join(__dirname, "..", "src", "assets", "recursos", "LogoTauro.png");
+      if (fs.existsSync(logoPath)) {
+        const buf = fs.readFileSync(logoPath);
+        embeddedLogo = `data:image/png;base64,${buf.toString("base64")}`;
+      }
+    } catch (err) {
+      // no-op: si falla la lectura, usaremos la URL pública
+    }
+
+    const publicLogoUrlBase = process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app";
+    const publicLogoUrl = `${publicLogoUrlBase.replace(/\/$/, "")}/assets/recursos/LogoTauro.png`;
+    const logoSrc = embeddedLogo || publicLogoUrl;
 
     const html = `
       <!doctype html>
@@ -116,8 +129,8 @@ module.exports = async (req, res) => {
       </head>
       <body>
         <div class="card">
-          <div class="header">
-            <img src="${logoUrl}" alt="Tauro Corporativo" />
+            <div class="header">
+            <img src="${logoSrc}" alt="Tauro Corporativo" />
           </div>
           <div class="content">
             <h2 style="margin:0 0 12px 0;font-weight:700;font-size:18px;color:#0b1220;">Nuevo mensaje desde el sitio web</h2>
