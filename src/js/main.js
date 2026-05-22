@@ -74,9 +74,12 @@ function initMobileMenu() {
   mobileMenuLinks.forEach((link) => {
     link.addEventListener("click", (e) => {
       const parent = link.closest(".has-submenu");
-      if (parent && window.innerWidth <= 900) {
+      const isParentTrigger = link.matches(".has-submenu > a");
+
+      if (parent && isParentTrigger && window.innerWidth <= 900) {
         // en móvil, al pulsar el enlace padre mostramos/ocultamos el submenu
         e.preventDefault();
+        e.stopImmediatePropagation();
         parent.classList.toggle("open");
         const a = parent.querySelector("a");
         if (a)
@@ -101,6 +104,7 @@ function initNavDropdowns() {
       // en pantallas pequeñas, el click en el enlace principal debe abrir/cerrar el submenu
       if (window.innerWidth <= 900) {
         e.preventDefault();
+        e.stopImmediatePropagation();
         const parent = link.parentElement;
         parent.classList.toggle("open");
         link.setAttribute("aria-expanded", parent.classList.contains("open"));
