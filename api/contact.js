@@ -208,7 +208,10 @@ module.exports = async (req, res) => {
           contentLength: a.content ? a.content.length : undefined,
         })),
       };
-      console.log("Resend payload preview:", JSON.stringify(payloadPreview, null, 2));
+      console.log(
+        "Resend payload preview:",
+        JSON.stringify(payloadPreview, null, 2),
+      );
     } catch (logErr) {
       console.log("Failed to stringify payload preview:", String(logErr));
     }
