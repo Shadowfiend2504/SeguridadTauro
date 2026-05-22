@@ -136,8 +136,14 @@ module.exports = async (req, res) => {
 
     // Log minimal payload preview for debugging
     try {
-      const payloadPreview = { subject, htmlSnippet: typeof html === "string" ? html.slice(0, 1000) : null };
-      console.log("Resend payload preview:", JSON.stringify(payloadPreview, null, 2));
+      const payloadPreview = {
+        subject,
+        htmlSnippet: typeof html === "string" ? html.slice(0, 1000) : null,
+      };
+      console.log(
+        "Resend payload preview:",
+        JSON.stringify(payloadPreview, null, 2),
+      );
     } catch (logErr) {
       console.log("Failed to stringify payload preview:", String(logErr));
     }
@@ -154,7 +160,10 @@ module.exports = async (req, res) => {
     res.statusCode = 200;
     res.end(JSON.stringify({ message: "Mensaje enviado correctamente" }));
   } catch (error) {
-    console.error('Error in /api/contact:', error && error.stack ? error.stack : error);
+    console.error(
+      "Error in /api/contact:",
+      error && error.stack ? error.stack : error,
+    );
     res.statusCode = 500;
     res.end(
       JSON.stringify({
