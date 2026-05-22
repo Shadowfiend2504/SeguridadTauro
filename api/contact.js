@@ -1,6 +1,4 @@
 const { Resend } = require("resend");
-const fs = require("fs");
-const path = require("path");
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -61,6 +59,7 @@ module.exports = async (req, res) => {
     const mensaje = String(body.mensaje || "").trim();
     const website = String(body.website || "").trim();
 
+    // Honeypot
     if (website) {
       res.statusCode = 200;
       res.end(JSON.stringify({ message: "OK" }));
@@ -92,44 +91,9 @@ module.exports = async (req, res) => {
     const serviceLabel = serviceLabels[servicio] || servicio;
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
-    // Preparar attachments: preferimos adjuntar el logo como inline CID leyendo el archivo
-    const attachments = [];
-    const publicLogoUrlBase =
-      process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app";
-    const publicLogoUrl = `${publicLogoUrlBase.replace(/\/$/, "")}/assets/recursos/LogoTauro.png`;
 
-    // Intentar leer el fichero del logo para adjuntarlo inline (CID)
-    try {
-      const logoPath = path.join(
-        __dirname,
-        "..",
-        "src",
-        "assets",
-        "recursos",
-        "LogoTauro.png",
-      );
-      if (fs.existsSync(logoPath)) {
-        const buf = fs.readFileSync(logoPath);
-        const cid = "logo@tauro";
-        attachments.push({
-          filename: "LogoTauro.png",
-          type: "image/png",
-          content: buf.toString("base64"),
-          disposition: "inline",
-          cid,
-        });
-        // Referenciar por CID en el HTML
-        var logoSrc = `cid:${cid}`;
-      } else {
-        var logoSrc = publicLogoUrl;
-      }
-    } catch (err) {
-      console.warn(
-        "No se pudo leer LogoTauro.png para adjuntar como CID:",
-        err && err.message ? err.message : err,
-      );
-      var logoSrc = publicLogoUrl;
-    }
+    // Cabecera simple en HTML (sin imágenes ni adjuntos)
+    const headerHtml = `<div style="padding:12px;color:#ffffff;font-weight:700;font-size:20px;">Tauro Corporativo</div>`;
 
     const html = `
       <!doctype html>
@@ -141,7 +105,6 @@ module.exports = async (req, res) => {
           body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f7fb; margin:0; padding:20px; }
           .card { max-width:700px; margin:0 auto; background:#ffffff; border-radius:8px; box-shadow:0 2px 6px rgba(16,24,40,.08); overflow:hidden }
           .header { padding:20px; text-align:center; background: #0c0b09; }
-          .header img { max-height:56px; }
           .content { padding:24px; color:#0b1220; }
           .row { display:flex; gap:12px; margin-bottom:10px; }
           .label { width:150px; color:#6b7280; font-size:14px; }
@@ -152,8 +115,8 @@ module.exports = async (req, res) => {
       </head>
       <body>
         <div class="card">
-            <div class="header">
-            <img src="${logoSrc}" alt="Tauro Corporativo" />
+          <div class="header">
+            ${headerHtml}
           </div>
           <div class="content">
             <h2 style="margin:0 0 12px 0;font-weight:700;font-size:18px;color:#0b1220;">Nuevo mensaje desde el sitio web</h2>
@@ -171,47 +134,10 @@ module.exports = async (req, res) => {
 
     const text = `Nuevo mensaje desde el sitio web\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}\nServicio: ${serviceLabel}\n\nMensaje:\n${mensaje}`;
 
-    // Debug: log which logo source we will send as attachment
-    console.log("logoSrc used in HTML:", logoSrc);
-    console.log("publicLogoUrl (for attachment):", publicLogoUrl);
-
-    // If no CID attachment was added, try adding the public URL as attachment path
-    if (attachments.length === 0) {
-      try {
-        const isHttp =
-          typeof publicLogoUrl === "string" &&
-          /^https?:\/\//i.test(publicLogoUrl);
-        if (isHttp) {
-          attachments.push({ path: publicLogoUrl, filename: "LogoTauro.png" });
-        } else {
-          console.warn(
-            "publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=",
-            publicLogoUrl,
-          );
-        }
-      } catch (e) {
-        console.warn("Error validating publicLogoUrl for attachment", e);
-      }
-    }
-
-    // Log payload (html + attachments) before sending to Resend for debugging
+    // Log minimal payload preview for debugging
     try {
-      const payloadPreview = {
-        subject,
-        htmlSnippet: typeof html === "string" ? html.slice(0, 1000) : null,
-        attachments: attachments.map((a) => ({
-          filename: a.filename,
-          type: a.type,
-          disposition: a.disposition,
-          cid: a.cid,
-          path: a.path,
-          contentLength: a.content ? a.content.length : undefined,
-        })),
-      };
-      console.log(
-        "Resend payload preview:",
-        JSON.stringify(payloadPreview, null, 2),
-      );
+      const payloadPreview = { subject, htmlSnippet: typeof html === "string" ? html.slice(0, 1000) : null };
+      console.log("Resend payload preview:", JSON.stringify(payloadPreview, null, 2));
     } catch (logErr) {
       console.log("Failed to stringify payload preview:", String(logErr));
     }
@@ -223,12 +149,12 @@ module.exports = async (req, res) => {
       subject,
       html,
       text,
-      attachments,
     });
 
     res.statusCode = 200;
     res.end(JSON.stringify({ message: "Mensaje enviado correctamente" }));
   } catch (error) {
+    console.error('Error in /api/contact:', error && error.stack ? error.stack : error);
     res.statusCode = 500;
     res.end(
       JSON.stringify({
