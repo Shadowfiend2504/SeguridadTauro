@@ -1488,6 +1488,16 @@ section:not(.hero)::before {
   fill: #ffffff;
 }
 
+.coverage-map-svg .coverage-state--featured {
+  fill: #d8b15f;
+  stroke: #7b5a19;
+}
+
+.coverage-map-svg .coverage-state--featured:hover,
+.coverage-map-svg .coverage-state--featured.is-active {
+  fill: #f0d28c;
+}
+
 .coverage-map-svg .imp-shape-poly {
   vector-effect: non-scaling-stroke;
 }
@@ -1507,7 +1517,7 @@ section:not(.hero)::before {
   border: 0;
   padding: 0;
   background: transparent;
-  transform: translate(-50%, -33%);
+  transform: none;
   box-shadow: none;
   pointer-events: auto;
   cursor: pointer;

@@ -364,9 +364,15 @@ function initCoverageMap() {
     }
   }
 
+  buttons.forEach((button) => {
+    const path = document.getElementById(button.id);
+    if (path) {
+      path.classList.add("coverage-state--featured");
+    }
+  });
+
   function positionCoverageButtons() {
     // Use precise SVG -> screen mapping to compute target coordinates
-    // Remove manual nudges: rely on iterative automatic alignment only
     const svgRect = coverageSvg.getBoundingClientRect();
     if (!svgRect.width || !svgRect.height) return;
     const svgPoint = coverageSvg.createSVGPoint();
@@ -391,73 +397,14 @@ function initCoverageMap() {
       // compute element sizes to align the visual circle (::before) center
       const w =
         button.offsetWidth || parseFloat(getComputedStyle(button).width);
-      const h =
-        button.offsetHeight || parseFloat(getComputedStyle(button).height);
-      const beforeStyle = getComputedStyle(button, "::before");
-      const beforeH = parseFloat(beforeStyle.height) || h * 0.66;
+      const afterStyle = getComputedStyle(button, "::after");
+      const tipOffset =
+        (parseFloat(afterStyle.top) || 0) +
+        (parseFloat(afterStyle.borderTopWidth) || 0);
 
-      // transform translate(-50%, -33%) shifts element by -0.5*w horizontally and -0.33*h vertically
-      // the circle center is located at beforeH/2 from the element top. Solve for top so that
-      // (top - 0.33*h + beforeH/2) === desiredTop
-      const computedTop = desiredTop + 0.33 * h - beforeH / 2;
-
-      // place roughly, then measure and nudge to remove any remaining pixel delta
-      button.style.left = `${desiredLeft.toFixed(2)}px`;
-      button.style.top = `${computedTop.toFixed(2)}px`;
-
-      // force layout and compute rects
-      const btnRect = button.getBoundingClientRect();
-      const pathRect = path.getBoundingClientRect();
-      const circleCenterY = btnRect.top + beforeH / 2;
-      const pathCenterY = pathRect.top + pathRect.height / 2;
-      const deltaY = Math.round(circleCenterY - pathCenterY);
-
-      if (Math.abs(deltaY) > 0) {
-        // move button up/down by delta to align circle center precisely
-        const currentTop = parseFloat(button.style.top || 0);
-        button.style.top = `${Math.round(currentTop - deltaY)}px`;
-      }
-
-      // no manual nudges: rely on automatic iterative refinement below
+      button.style.left = `${(desiredLeft - w / 2).toFixed(2)}px`;
+      button.style.top = `${(desiredTop - tipOffset).toFixed(2)}px`;
     });
-
-    // Iterative automatic refinement: adjust until each button's visible circle
-    // center matches the corresponding SVG path center (in screen pixels).
-    const maxIter = 20;
-    for (let iter = 0; iter < maxIter; iter++) {
-      let allCentered = true;
-
-      buttons.forEach((button) => {
-        const path = document.getElementById(button.id);
-        if (!path) return;
-
-        const btnRect = button.getBoundingClientRect();
-        const pathRect = path.getBoundingClientRect();
-        const beforeH =
-          parseFloat(getComputedStyle(button, "::before").height) ||
-          button.offsetHeight * 0.66;
-
-        const circleCx = btnRect.left + btnRect.width / 2;
-        const circleCy = btnRect.top + beforeH / 2;
-        const pathCx = pathRect.left + pathRect.width / 2;
-        const pathCy = pathRect.top + pathRect.height / 2;
-
-        const dx = Math.round(circleCx - pathCx);
-        const dy = Math.round(circleCy - pathCy);
-
-        if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
-          allCentered = false;
-          const currentLeft = parseFloat(button.style.left || 0);
-          const currentTop = parseFloat(button.style.top || 0);
-          button.style.left = `${(currentLeft - dx).toFixed(2)}px`;
-          button.style.top = `${(currentTop - dy).toFixed(2)}px`;
-        }
-      });
-
-      // Force a reflow so measurements update for the next iteration
-      void document.body.offsetHeight;
-      if (allCentered) break;
-    }
   }
 
   function setActiveCity(cityKey, activeButton) {
