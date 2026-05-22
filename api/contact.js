@@ -95,7 +95,14 @@ module.exports = async (req, res) => {
     // Intentar incrustar el logo como base64 desde el archivo local; si no está disponible, usar URL pública
     let embeddedLogo = null;
     try {
-      const logoPath = path.join(__dirname, "..", "src", "assets", "recursos", "LogoTauro.png");
+      const logoPath = path.join(
+        __dirname,
+        "..",
+        "src",
+        "assets",
+        "recursos",
+        "LogoTauro.png",
+      );
       if (fs.existsSync(logoPath)) {
         const buf = fs.readFileSync(logoPath);
         embeddedLogo = `data:image/png;base64,${buf.toString("base64")}`;
@@ -104,7 +111,8 @@ module.exports = async (req, res) => {
       // no-op: si falla la lectura, usaremos la URL pública
     }
 
-    const publicLogoUrlBase = process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app";
+    const publicLogoUrlBase =
+      process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app";
     const publicLogoUrl = `${publicLogoUrlBase.replace(/\/$/, "")}/assets/recursos/LogoTauro.png`;
     const logoSrc = embeddedLogo || publicLogoUrl;
 
