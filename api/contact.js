@@ -91,7 +91,9 @@ module.exports = async (req, res) => {
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
     // URL pública del logo (usada en el encabezado del correo)
-    const logoUrl = process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app/assets/recursos/LogoTauro.png";
+    const logoUrl =
+      process.env.SITE_PUBLIC_URL ||
+      "https://seguridad-tauro.vercel.app/assets/recursos/LogoTauro.png";
 
     const html = `
       <!doctype html>
