@@ -90,14 +90,48 @@ module.exports = async (req, res) => {
     const serviceLabel = serviceLabels[servicio] || servicio;
 
     const subject = `Nuevo contacto Tauro Corporativo: ${nombre}`;
+    // URL pública del logo (usada en el encabezado del correo)
+    const logoUrl = process.env.SITE_PUBLIC_URL || "https://seguridad-tauro.vercel.app/assets/recursos/LogoTauro.png";
+
     const html = `
-      <h2>Nuevo mensaje desde el sitio web</h2>
-      <p><strong>Nombre:</strong> ${escapeHtml(nombre)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-      <p><strong>Teléfono:</strong> ${escapeHtml(telefono)}</p>
-      <p><strong>Servicio:</strong> ${escapeHtml(serviceLabel)}</p>
-      <p><strong>Mensaje:</strong><br />${escapeHtml(mensaje).replace(/\n/g, "<br />")}</p>
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f7fb; margin:0; padding:20px; }
+          .card { max-width:700px; margin:0 auto; background:#ffffff; border-radius:8px; box-shadow:0 2px 6px rgba(16,24,40,.08); overflow:hidden }
+          .header { padding:20px; text-align:center; background: #0c0b09; }
+          .header img { max-height:56px; }
+          .content { padding:24px; color:#0b1220; }
+          .row { display:flex; gap:12px; margin-bottom:10px; }
+          .label { width:150px; color:#6b7280; font-size:14px; }
+          .value { flex:1; font-weight:600; color:#111827 }
+          .message { margin-top:12px; white-space:pre-wrap; color:#374151 }
+          .footer { padding:16px 24px; font-size:13px; color:#6b7280; background:#f9fafb; text-align:center }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="header">
+            <img src="${logoUrl}" alt="Tauro Corporativo" />
+          </div>
+          <div class="content">
+            <h2 style="margin:0 0 12px 0;font-weight:700;font-size:18px;color:#0b1220;">Nuevo mensaje desde el sitio web</h2>
+            <div class="row"><div class="label">Nombre:</div><div class="value">${escapeHtml(nombre)}</div></div>
+            <div class="row"><div class="label">Email:</div><div class="value">${escapeHtml(email)}</div></div>
+            <div class="row"><div class="label">Teléfono:</div><div class="value">${escapeHtml(telefono)}</div></div>
+            <div class="row"><div class="label">Servicio:</div><div class="value">${escapeHtml(serviceLabel)}</div></div>
+            <div class="message"><strong>Mensaje:</strong><br/>${escapeHtml(mensaje).replace(/\n/g, "<br />")}</div>
+          </div>
+          <div class="footer">Tauro Corporativo — mensaje enviado desde el formulario web</div>
+        </div>
+      </body>
+      </html>
     `;
+
+    const text = `Nuevo mensaje desde el sitio web\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}\nServicio: ${serviceLabel}\n\nMensaje:\n${mensaje}`;
 
     await resend.emails.send({
       from: fromEmail,
@@ -105,6 +139,7 @@ module.exports = async (req, res) => {
       replyTo: email,
       subject,
       html,
+      text,
     });
 
     res.statusCode = 200;

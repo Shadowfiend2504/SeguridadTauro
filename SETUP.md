@@ -111,6 +111,14 @@ Para que el formulario de contacto envíe correos, configura estas variables en 
 
 La clave privada no debe guardarse en el repositorio. Si la estás configurando en Vercel, pega allí tu valor real y no lo subas a Git.
 
+## URL pública del logo (opcional)
+
+La plantilla HTML del correo carga el logo desde una URL pública. Por defecto se usa `https://seguridad-tauro.vercel.app/assets/recursos/LogoTauro.png`, pero puedes configurar `SITE_PUBLIC_URL` en Vercel para apuntar a tu dominio o CDN. Ejemplo:
+
+`SITE_PUBLIC_URL=https://seguridad-tauro.vercel.app`
+
+Si configuras esa variable, el handler usará `${SITE_PUBLIC_URL}/assets/recursos/LogoTauro.png` como fuente del logo.
+
 ---
 
 ## Características del Sitio

@@ -79,6 +79,8 @@ Para que funcione en Vercel, configura estas variables de entorno en el panel de
 - `RESEND_FROM_EMAIL`: remitente verificado en Resend
 - `CONTACT_TO_EMAIL`: buzón que recibirá los mensajes
 
+- `SITE_PUBLIC_URL` (opcional): URL base pública del sitio usada por la plantilla de correo para cargar el logo, por ejemplo `https://seguridad-tauro.vercel.app`. Si no está configurada, el código usará la URL por defecto que apunta al sitio desplegado.
+
 Si pruebas en local, puedes usar un archivo `.env.local` con esas mismas claves. Ese archivo ya está ignorado por Git.
 
 Si prefieres otra pasarela, puedes sustituir `api/contact.js` por un webhook de Formspree, Resend o el proveedor que uses, pero no expongas la llave en el frontend.
