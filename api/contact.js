@@ -157,20 +157,25 @@ module.exports = async (req, res) => {
     const text = `Nuevo mensaje desde el sitio web\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}\nServicio: ${serviceLabel}\n\nMensaje:\n${mensaje}`;
 
     // Debug: log which logo source we will send as attachment
-    console.log('logoSrc used in HTML:', logoSrc);
-    console.log('publicLogoUrl (for attachment):', publicLogoUrl);
+    console.log("logoSrc used in HTML:", logoSrc);
+    console.log("publicLogoUrl (for attachment):", publicLogoUrl);
 
     // Ensure attachments path is a valid http(s) URL before sending
     const attachments = [];
     try {
-      const isHttp = typeof publicLogoUrl === 'string' && /^https?:\/\//i.test(publicLogoUrl);
+      const isHttp =
+        typeof publicLogoUrl === "string" &&
+        /^https?:\/\//i.test(publicLogoUrl);
       if (isHttp) {
-        attachments.push({ path: publicLogoUrl, filename: 'LogoTauro.png' });
+        attachments.push({ path: publicLogoUrl, filename: "LogoTauro.png" });
       } else {
-        console.warn('publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=', publicLogoUrl);
+        console.warn(
+          "publicLogoUrl is not an http(s) URL, skipping attachments. publicLogoUrl=",
+          publicLogoUrl,
+        );
       }
     } catch (e) {
-      console.warn('Error validating publicLogoUrl for attachment', e);
+      console.warn("Error validating publicLogoUrl for attachment", e);
     }
 
     await resend.emails.send({
