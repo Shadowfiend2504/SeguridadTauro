@@ -258,5 +258,5 @@ Para más información o asistencia:
 
 ---
 
-**Última actualización:** 2024  
+**Última actualización:** 2026  
 **Versión del Proyecto:** 1.0.0

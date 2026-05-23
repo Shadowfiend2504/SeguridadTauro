@@ -123,7 +123,7 @@ Síguenos en nuestras redes sociales para actualizaciones de seguridad y nuevos 
 
 ## Licencia
 
-MIT License - Todos los derechos reservados © 2024 Tauro Corporativo
+MIT License - Todos los derechos reservados © 2026 Tauro Corporativo
 
 ## Autor
 
