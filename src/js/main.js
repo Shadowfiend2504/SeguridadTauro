@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initVideoBackground();
   initCoverageMap();
   initNavDropdowns();
-  initFormationCarousel();
 });
 
 function buildWhatsAppUrl(message = siteConfig.whatsappMessage) {
