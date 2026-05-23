@@ -1287,49 +1287,6 @@ section:not(.hero)::before {
   color: var(--text-light);
 }
 
-.formation-band {
-  margin-top: var(--spacing-2xl);
-  padding: 0.25rem 0;
-  border-radius: 18px;
-  border-top: 1px solid rgba(216, 177, 95, 0.08);
-  border-bottom: 1px solid rgba(216, 177, 95, 0.08);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0)),
-    transparent;
-  overflow: hidden;
-}
-
-.formation-band-track {
-  display: flex;
-  width: max-content;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-}
-
-.formation-band-group {
-  display: flex;
-  align-items: center;
-  gap: 1.7rem;
-  padding-right: 1.7rem;
-}
-
-.formation-band-group img {
-  width: clamp(132px, 14vw, 210px);
-  height: clamp(132px, 14vw, 210px);
-  object-fit: contain;
-  flex: 0 0 auto;
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  /* reduced-motion preference detected — leaving other animations unaffected,
-     but do not force the formation band to identity transform so JS can control it. */
-}
 
 #acerca-de ul {
   padding-left: 1.3rem;
