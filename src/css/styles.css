@@ -1638,6 +1638,9 @@ footer a.has-inline-icon::before {
     rgba(13, 12, 10, 0.86)
   );
   box-shadow: var(--shadow-soft);
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.7;
 }
 
 #acerca-de .grid > div::before,
