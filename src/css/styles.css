@@ -98,7 +98,8 @@ h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.15;
-  color: #f8f3e8;
+  color: var(--primary-color);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.28);
   margin-bottom: var(--spacing-md);
 }
 
@@ -504,6 +505,18 @@ video {
   text-transform: uppercase;
 }
 
+.hero-logo {
+  display: block;
+  width: min(100%, clamp(250px, 28vw, 330px));
+  height: auto;
+  margin: 0 auto 0.1rem;
+}
+
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 .hero-highlights {
   display: flex;
   justify-content: center;
@@ -802,7 +815,7 @@ section:not(.hero)::before {
   position: relative;
   display: inline-block;
   margin-bottom: 0.9rem;
-  color: #fff3d5;
+  color: #f3d48c;
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -939,7 +952,7 @@ section:not(.hero)::before {
 .service-card--guardias {
   background-image:
     linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
-    url("../assets/recursos/resguardo%20comercial.webp");
+    url("../assets/recursos/resguardo%20comercial.png");
   background-blend-mode: overlay, normal;
 }
 .service-card--custodia {
@@ -994,6 +1007,63 @@ section:not(.hero)::before {
 /* Ensure readable list inside service cards */
 .service-card .card-body p {
   color: rgba(247, 240, 224, 0.95);
+}
+
+.about-image-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  background:
+    linear-gradient(180deg, rgba(6, 5, 4, 0.2), rgba(6, 5, 4, 0.6)),
+    url("../assets/recursos/papaehijotaro.png") center 28% / cover no-repeat;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.about-image-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04),
+    transparent 45%,
+    rgba(216, 177, 95, 0.05)
+  );
+  pointer-events: none;
+}
+
+.about-panel {
+  position: relative;
+  z-index: 1;
+  padding: 1.35rem;
+  border-radius: 20px;
+  border: 1px solid rgba(216, 177, 95, 0.16);
+  background: rgba(11, 10, 8, 0.74);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
+}
+
+.about-panel h3 {
+  margin-bottom: 1rem;
+}
+
+.about-panel p,
+.about-panel li {
+  color: var(--text-light);
+}
+
+.about-panel ul {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .about-image-card {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1140,7 +1210,7 @@ section:not(.hero)::before {
 .service-hero--guardias {
   background-image:
     linear-gradient(180deg, rgba(6, 6, 6, 0.52), rgba(6, 6, 6, 0.6)),
-    url("../assets/recursos/resguardo%20comercial.webp");
+    url("../assets/recursos/resguardo%20comercial.png");
   background-blend-mode: overlay, normal;
 }
 .service-hero--custodia {
@@ -1180,7 +1250,7 @@ section:not(.hero)::before {
 .card-header h3,
 .card-header h4 {
   margin: 0;
-  color: #fff4d7;
+  color: #f3d48c;
 }
 
 .service-icon {
@@ -1286,7 +1356,6 @@ section:not(.hero)::before {
 #cobertura p {
   color: var(--text-light);
 }
-
 
 #acerca-de ul {
   padding-left: 1.3rem;
@@ -1675,12 +1744,12 @@ footer a.has-inline-icon::before {
 #contacto .grid > div:last-child h3,
 #acerca-de .grid > div h3 {
   margin-bottom: 1rem;
-  color: #fff2c8;
+  color: #f1cf78;
 }
 
 #contacto .grid > div h4 {
   margin-bottom: 0.55rem;
-  color: #f6e2aa;
+  color: #f3d48c;
 }
 
 #contacto .grid > div p,
@@ -2063,6 +2132,10 @@ footer {
   .hero-content {
     padding: 1.25rem;
     border-radius: 22px;
+  }
+
+  .hero-logo {
+    width: min(100%, 160px);
   }
 
   .cta-button,

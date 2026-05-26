@@ -254,16 +254,28 @@ function initVideoBackground() {
 /**
  * Mapa de cobertura interactivo
  */
+// Inyectar regla de estilo para justificar texto si no existe en CSS
+(function ensureTextJustifyStyle() {
+  if (document.getElementById("text-justify-style")) return;
+  const style = document.createElement("style");
+  style.id = "text-justify-style";
+  style.textContent =
+    ".text-justify{ text-align: justify; text-justify: inter-word; }";
+  document.head.appendChild(style);
+})();
+
 function initCoverageMap() {
   const coverageData = {
     cdmx: {
-      name: "Ciudad de México",
+      name: "Ciudad de México y Área Metropolitana",
       description:
-        "Centro corporativo y punto de coordinación operativa. Desde aquí gestionamos atención ejecutiva, despliegue táctico y supervisión regional.",
+        "Centro corporativo y centro de operaciones. Desde aquí gestionamos atención ejecutiva, despliegue táctico y supervisión regional.",
       facts: [
         "Coordinación nacional",
         "Atención corporativa",
         "Operaciones de respuesta rápida",
+        "Centro de gestión de crisis",
+        "Unidades de soporte y respuesta inmediata",
       ],
     },
     monterrey: {
@@ -416,6 +428,8 @@ function initCoverageMap() {
 
     cityName.textContent = data.name;
     cityDescription.textContent = data.description;
+    // Aplicar justificación al texto descriptivo
+    cityDescription.classList.add("text-justify");
     cityFacts.innerHTML = data.facts.map((fact) => `<li>${fact}</li>`).join("");
   }
 
