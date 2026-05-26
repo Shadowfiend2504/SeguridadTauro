@@ -272,7 +272,7 @@ function initCoverageMap() {
         "Centro corporativo y centro de operaciones. Desde aquí gestionamos atención ejecutiva, despliegue táctico y supervisión regional.",
       facts: [
         "Coordinación nacional",
-        "Atención corporativa",
+        "Centro de Operación",
         "Operaciones de respuesta rápida",
         "Centro de gestión de crisis",
         "Unidades de soporte y respuesta inmediata",
