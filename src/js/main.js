@@ -468,7 +468,14 @@ function initCoverageMap() {
     cityDescription.textContent = data.description;
     // Aplicar justificación al texto descriptivo
     cityDescription.classList.add("text-justify");
-    cityFacts.innerHTML = data.facts.map((fact) => `<li>${fact}</li>`).join("");
+
+    cityFacts.replaceChildren(
+      ...data.facts.map((fact) => {
+        const item = document.createElement("li");
+        item.textContent = fact;
+        return item;
+      }),
+    );
   }
 
   buttons.forEach((button) => {

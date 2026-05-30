@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://seguridad-tauro.vercel.app/sitemap.xml

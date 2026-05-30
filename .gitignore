@@ -21,6 +21,7 @@ yarn-error.log*
 dist/
 build/
 .vercel/
+public/
 
 # Mantener disponible el index.html dentro de src para despliegue
 !src/index.html

@@ -70,16 +70,15 @@ SeguridadTauro/
 │   │   └── styles.css          # Estilos principales
 │   ├── js/
 │   │   └── main.js             # Lógica JavaScript
-│   └── assets/                 # (Imágenes, videos, etc)
-├── public/                     # Archivos compilados
-├── .github/
-│   └── copilot-instructions.md # Instrucciones para Copilot
+│   ├── assets/                 # (Imágenes, videos, etc)
+│   ├── robots.txt              # SEO
+│   └── sitemap.xml             # SEO
+├── dist/                       # Salida compilada local de Webpack
 ├── .vscode/
 │   └── settings.json           # Configuración de VS Code
 ├── .eslintrc.js                # Configuración ESLint
 ├── webpack.config.js           # Configuración Webpack
 ├── package.json                # Dependencias del proyecto
-├── (Opcional) `server.js` local para desarrollo antiguo
 ├── .gitignore                  # Archivos ignorados por Git
 ├── README.md                   # Documentación del proyecto
 └── SETUP.md                    # Este archivo

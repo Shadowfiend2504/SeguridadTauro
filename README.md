@@ -31,7 +31,7 @@ src/
 │   └── main.js          # Lógica JavaScript
 └── assets/              # Imágenes, iconos, etc.
 
-public/                  # Archivos compilados finales
+dist/                    # Salida compilada local de Webpack
 ```
 
 ## Instalación
@@ -62,6 +62,8 @@ El sitio estará disponible en `http://localhost:3000`
 ```bash
 npm run build
 ```
+
+La compilación local genera la salida en `dist/`. El despliegue en Vercel consume directamente `src/` mediante `vercel.json`, así que no necesitas publicar esa carpeta generada.
 
 ### Verificar calidad de código
 
@@ -103,7 +105,6 @@ El archivo `vercel.json` define rutas y builds explícitos para:
 - Servir `src/index.html` en `/`
 - Resolver assets desde `src/`
 - Exponer la función serverless `/api/contact`
-- Publicar archivos estáticos adicionales dentro de `public/` (por ejemplo `robots.txt` y `sitemap.xml`)
 
 ## Archivos sensibles
 
