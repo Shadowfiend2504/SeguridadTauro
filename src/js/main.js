@@ -38,7 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initVercelAnalytics() {
   const currentUrl = new URL(window.location.href);
-  const optInFromQuery = currentUrl.searchParams.get(analyticsConfig.queryKey) === "1";
+  const optInFromQuery =
+    currentUrl.searchParams.get(analyticsConfig.queryKey) === "1";
 
   if (optInFromQuery) {
     window.localStorage.setItem(analyticsConfig.storageKey, "1");
@@ -46,7 +47,8 @@ function initVercelAnalytics() {
     window.history.replaceState({}, document.title, currentUrl.toString());
   }
 
-  const isEnabled = window.localStorage.getItem(analyticsConfig.storageKey) === "1";
+  const isEnabled =
+    window.localStorage.getItem(analyticsConfig.storageKey) === "1";
   if (!isEnabled) return;
 
   const scriptId = "tauro-vercel-analytics";
