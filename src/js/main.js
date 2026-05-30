@@ -16,6 +16,13 @@ const siteConfig = {
   contactEndpoint: document.body?.dataset?.contactEndpoint || "/api/contact",
 };
 
+const analyticsConfig = {
+  storageKey: "tauro_analytics_enabled",
+  queryKey: "tauroAnalytics",
+  productionScript: "/_vercel/insights/script.js",
+  developmentScript: "https://va.vercel-scripts.com/v1/script.debug.js",
+};
+
 // Inicializar la aplicación
 document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
@@ -26,7 +33,36 @@ document.addEventListener("DOMContentLoaded", () => {
   initVideoBackground();
   initCoverageMap();
   initNavDropdowns();
+  initVercelAnalytics();
 });
+
+function initVercelAnalytics() {
+  const currentUrl = new URL(window.location.href);
+  const optInFromQuery = currentUrl.searchParams.get(analyticsConfig.queryKey) === "1";
+
+  if (optInFromQuery) {
+    window.localStorage.setItem(analyticsConfig.storageKey, "1");
+    currentUrl.searchParams.delete(analyticsConfig.queryKey);
+    window.history.replaceState({}, document.title, currentUrl.toString());
+  }
+
+  const isEnabled = window.localStorage.getItem(analyticsConfig.storageKey) === "1";
+  if (!isEnabled) return;
+
+  const scriptId = "tauro-vercel-analytics";
+  if (document.getElementById(scriptId)) return;
+
+  const script = document.createElement("script");
+  script.id = scriptId;
+  script.defer = true;
+  script.src =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+      ? analyticsConfig.developmentScript
+      : analyticsConfig.productionScript;
+
+  document.head.appendChild(script);
+}
 
 function buildWhatsAppUrl(message = siteConfig.whatsappMessage) {
   const phone = siteConfig.whatsappNumber.replace(/\D/g, "");
