@@ -1,5 +1,3 @@
-import { inject } from '@vercel/analytics';
-
 // Utilidades
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
@@ -29,9 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCoverageMap();
   initNavDropdowns();
 });
-
-// Inicializar Vercel Analytics usando el paquete oficial
-inject();
 
 function buildWhatsAppUrl(message = siteConfig.whatsappMessage) {
   const phone = siteConfig.whatsappNumber.replace(/\D/g, '');
